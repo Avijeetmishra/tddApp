@@ -383,6 +383,7 @@ export default {
           "cost":14,
           "minCost":7,
           "available":0
+          
       },
       {
           "type":"gridTech",
