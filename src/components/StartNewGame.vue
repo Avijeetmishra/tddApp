@@ -28,47 +28,81 @@
         
     </mymodal>
     
-    <div class = "columns is-centered">
-        <div class="column buttons">
-            <button class="button is-primary">Current Round : {{currentRound}}</button>
-            <button class="button is-danger" @click="click_nextRound" v-if="currentRound < 8">Start Next Round</button>
-            <button class="button is-info">Players : {{playercount}}</button>
-            <button class="button is-danger" v-if="soundEnabled" @click="click_toggleSound">Disable Sounds</button>
-            <button class="button is-success" v-else @click="click_toggleSound">Enable Sounds</button>
-        </div>
+    <div>
+        <tabs>
+            <tab name = "Tech Track" :selectedtab = true>
+                <div class="columns is-centered" >
+                    <div class= "column is-1" v-for="playerObj in playerInfo" :key="playerObj.tempName + playerObj.currentTurn">
+                        <button class="button is-success is-light"  >{{playerObj.playerName}} </button>
+                    </div>
+                </div>
+                <div class = "columns is-centered">
+                    <div class="column buttons">
+                        <button class="button is-success">Current Round : {{currentRound}}</button>
+                        <button class="button is-danger" @click="click_nextRound" v-if="currentRound < 8">Start Next Round</button>
+                        <button class="button is-info">Players : {{playercount}}</button>
+                        <button class="button is-danger" v-if="soundEnabled" @click="click_toggleSound">Disable Sounds</button>
+                        <button class="button is-success" v-else @click="click_toggleSound">Enable Sounds</button>
+                    </div>
+                </div>
+                <div class="columns">
+                        <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="militaryTech.id + index3"   v-for="(militaryTech,index3) in randomMilitaryTechData" v-if="militaryTech.available > 0">
+                            <img class="" height="50%" width="70%" :src="militaryTech.src"  @click="click_tech(militaryTech, index3)">
+                            <div v-if="militaryTech.available === 2" class="overlay_image" :src="images['2X']">2</div>
+                            <div v-else-if="militaryTech.available === 3" class="overlay_image" :src="images['3X']">3</div>
+                            <div v-else-if="militaryTech.available === 4" class="overlay_image" :src="images['4X']">4</div>
+                            <div v-else-if="militaryTech.available === 5" class="overlay_image" :src="images['4X']">5</div>
+                        </div>
+                </div>
+                <div class="columns">
+                        <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="gridTech.id + index2"   v-for="(gridTech,index2) in randomGridTechData"  v-if="gridTech.available > 0">
+                            <img height="50%" width="70%" :src="gridTech.src"  @click="click_tech(gridTech, index2)">
+                            <div v-if="gridTech.available === 2" class="overlay_image" :src="images['2X']">2</div>
+                            <div v-else-if="gridTech.available === 3" class="overlay_image" :src="images['3X']">3</div>
+                            <div v-else-if="gridTech.available === 4" class="overlay_image" :src="images['4X']">4</div>
+                            <div v-else-if="gridTech.available === 5" class="overlay_image" :src="images['4X']">5</div>
+                        </div>
+                </div>
+                <div class="columns ">
+                        <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="nanoTech.id + index1"  v-for="(nanoTech,index1) in randomNanoTechData" v-if="nanoTech.available>0">
+                            <img height="50%" width="70%" :src="nanoTech.src" @click="click_tech(nanoTech, index1)">
+                            <div v-if="nanoTech.available === 2" class="overlay_image" >2</div>
+                            <div v-else-if="nanoTech.available === 3" class="overlay_image" >3</div>
+                            <div v-else-if="nanoTech.available === 4" class="overlay_image" >4</div>
+                            <div v-else-if="nanoTech.available === 5" class="overlay_image" >5</div>
+                        </div> 
+                </div>
+                <div class="columns is-multiline">
+                        <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="rareTech.id + index4"  v-for="(rareTech,index4) in randomRareTechData" v-if="rareTech.available > 0">
+                            <img height="50%" width="70%" :src="rareTech.src"  @click="click_tech(rareTech, index4)">
+                        </div>
+                </div>
+            </tab>
+            <tab name = "Player Info">
+                <div class="columns is-left" v-for="playerObj in playerInfo" :key="playerObj.tempName + playerObj.currentTurn">
+                    <div class= "column is-1">
+                        <button class="button is-link "  >Current Turn : {{playerObj.currentTurn}} </button>
+                    </div>
+                    <div class= "column is-1">
+                        <input class="input" v-model="playerObj.playerName">
+                    </div>
+                    
+                    <div class= "column is-1">
+                        <button class="button is-danger"  @click="click_passTurn(playerObj)">Pass</button>
+                    </div>
+                    <div class= "column is-1">
+                        <button class="button is-info"  @click="click_unpassTurn(playerObj)">Unpass</button>
+                    </div>
+                    
+                    <div class= "column is-1" v-if="playerObj.passed">
+                        <button class="button is-link "  >Next Round Turn : {{playerObj.nextTurn}}</button>
+                    </div>
+                </div>
+            </tab>
+        </tabs>
     </div>
-    <div class="columns">
-            <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="militaryTech.id + index3"   v-for="(militaryTech,index3) in randomMilitaryTechData" v-if="militaryTech.available > 0">
-                <img class="" height="50%" width="70%" :src="militaryTech.src"  @click="click_tech(militaryTech, index3)">
-                <div v-if="militaryTech.available === 2" class="overlay_image" :src="images['2X']">2</div>
-                <div v-else-if="militaryTech.available === 3" class="overlay_image" :src="images['3X']">3</div>
-                <div v-else-if="militaryTech.available === 4" class="overlay_image" :src="images['4X']">4</div>
-                <div v-else-if="militaryTech.available === 5" class="overlay_image" :src="images['4X']">5</div>
-            </div>
-    </div>
-    <div class="columns">
-            <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="gridTech.id + index2"   v-for="(gridTech,index2) in randomGridTechData"  v-if="gridTech.available > 0">
-                <img height="50%" width="70%" :src="gridTech.src"  @click="click_tech(gridTech, index2)">
-                <div v-if="gridTech.available === 2" class="overlay_image" :src="images['2X']">2</div>
-                <div v-else-if="gridTech.available === 3" class="overlay_image" :src="images['3X']">3</div>
-                <div v-else-if="gridTech.available === 4" class="overlay_image" :src="images['4X']">4</div>
-                <div v-else-if="gridTech.available === 5" class="overlay_image" :src="images['4X']">5</div>
-            </div>
-    </div>
-    <div class="columns ">
-            <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="nanoTech.id + index1"  v-for="(nanoTech,index1) in randomNanoTechData" v-if="nanoTech.available>0">
-                <img height="50%" width="70%" :src="nanoTech.src" @click="click_tech(nanoTech, index1)">
-                <div v-if="nanoTech.available === 2" class="overlay_image" >2</div>
-                <div v-else-if="nanoTech.available === 3" class="overlay_image" >3</div>
-                <div v-else-if="nanoTech.available === 4" class="overlay_image" >4</div>
-                <div v-else-if="nanoTech.available === 5" class="overlay_image" >5</div>
-            </div> 
-    </div>
-    <div class="columns is-multiline">
-            <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="rareTech.id + index4"  v-for="(rareTech,index4) in randomRareTechData" v-if="rareTech.available > 0">
-                <img height="50%" width="70%" :src="rareTech.src"  @click="click_tech(rareTech, index4)">
-            </div>
-    </div>
+
+    
     
     
     
@@ -78,10 +112,14 @@
 <script>
 import 'animate.css';
 import mymodal from './mymodal';
+import tabs from './tabs';
+import tab from './tab';
 export default {
   name: 'StartNewGame',
   components:{
-    mymodal  
+    mymodal,
+    tabs,
+    tab
   },
    props: {
     playercount: {
@@ -117,6 +155,21 @@ export default {
 
           }
       }
+
+        //create player table
+        for(let i = 1 ; i < this.playercount; i++){
+            let count = i+1;
+            let playerObj = {
+                "tempName": "Player" + count,
+                "playerName" : "",
+                "currentTurn": count,
+                "nextTurn": count,
+                "previousTurn": count,
+                "passed" : false
+            };
+            this.playerInfo.push(playerObj);
+        }
+
       let obj = this.func_createRandomTechArray(1);
       this.randomNanoTechData = [];
       this.randomNanoTechData = JSON.parse(JSON.stringify(obj.nanoTech.data));
@@ -156,7 +209,7 @@ export default {
       this.randomRareTechData.sort(compareNumbers);
 
       let dataObj = this.func_createDataObjToSave(this.dataObjToSave, this.currentRound, this.sessionname, 
-      this.randomNanoTechData, this.randomGridTechData, this.randomMilitaryTechData, this.randomRareTechData, this.techData, this.playercount,this.techCount);
+      this.randomNanoTechData, this.randomGridTechData, this.randomMilitaryTechData, this.randomRareTechData, this.techData, this.playercount,this.techCount, this.playerInfo);
 
       this.func_saveDataObj(dataObj);
       if(this.soundEnabled){
@@ -166,6 +219,16 @@ export default {
   },
   data () {
     return {
+        "playerInfo":[
+            {
+                "tempName": "Player1",
+                "playerName" : "",
+                "currentTurn": 1,
+                "nextTurn": 1,
+                "previousTurn": 1,
+                "passed" : false
+            }
+        ],
         "dataObjToSave":{
             "id": null,
             "ts": null,
@@ -740,6 +803,20 @@ export default {
     }
   },
   "methods": {
+      "click_passTurn": function (iv_obj) {
+          let count = 0 ; 
+          for(let i = 0 ; i < this.playerInfo.length; i++){
+              if(this.playerInfo[i].passed){
+                  count++;
+              }
+          }
+          iv_obj.passed = true;
+          iv_obj.nextTurn = count + 1;
+      },
+      "click_unpassTurn": function (iv_obj) {
+          iv_obj.nextTurn = iv_obj.currentTurn;
+          iv_obj.passed = false;
+      },
       "click_toggleSound": function(){
           this.soundEnabled = !this.soundEnabled;
       },
@@ -748,6 +825,7 @@ export default {
                 this.dataObjToSave = JSON.parse(JSON.stringify(iv_dataObj));
                 this.currentRound = iv_dataObj.currentRound;
                 this.playercount = iv_dataObj.playerCount;
+                this.playerInfo = iv_dataObj.playerInfo;
                 this.name = iv_dataObj.sessionname;
                 this.randomNanoTechData = JSON.parse(JSON.stringify(iv_dataObj.randomNanoTechData));
                 this.randomGridTechData = JSON.parse(JSON.stringify(iv_dataObj.randomGridTechData));
@@ -762,7 +840,7 @@ export default {
 
       },
       "func_createDataObjToSave": function(iv_dataObj,iv_round, iv_name, iv_randomNanoTechData, iv_randomGridTechData,
-            iv_randomMilitaryTechData, iv_randomRareTechData, iv_techData, iv_playerCount, iv_techCount
+            iv_randomMilitaryTechData, iv_randomRareTechData, iv_techData, iv_playerCount, iv_techCount,iv_playerInfo
             ){
                 let lv_ts = Date.now();
                 if(iv_dataObj.id === null || iv_dataObj.ts === null ||iv_dataObj.name === null){
@@ -779,6 +857,7 @@ export default {
                 }
                 iv_dataObj.updateTs = lv_ts;
                 iv_dataObj.playerCount = iv_playerCount;
+                iv_dataObj.playerInfo = iv_playerInfo;
                 iv_dataObj.currentRound = iv_round;
                 iv_dataObj.randomNanoTechData = JSON.parse(JSON.stringify(iv_randomNanoTechData));
                 iv_dataObj.randomGridTechData = JSON.parse(JSON.stringify(iv_randomGridTechData));
@@ -845,7 +924,7 @@ export default {
           }
           this[techType].sort(compareNumbers);
           let dataObj = this.func_createDataObjToSave(this.dataObjToSave, this.currentRound, this.sessionname, 
-            this.randomNanoTechData, this.randomGridTechData, this.randomMilitaryTechData, this.randomRareTechData, this.techData, this.playercount, this.techCount);
+            this.randomNanoTechData, this.randomGridTechData, this.randomMilitaryTechData, this.randomRareTechData, this.techData, this.playercount, this.techCount, this.playerInfo);
           if(this.soundEnabled){
                 var audio = new Audio(this.buySoundLocation[this.randomSoundIndex]);
                 this.randomSoundIndex++;
@@ -872,6 +951,17 @@ export default {
         function compareNumbers(a, b) {
             return a.cost - b.cost;
             }
+        function compareTurn(a, b) {
+        return a.currentTurn - b.currentTurn;
+        }
+        //correct the turn order
+        for(let i = 0 ; i < this.playerInfo.length; i++){
+              this.playerInfo[i].passed = false;
+              this.playerInfo[i].previousTurn = this.playerInfo[i].currentTurn;
+              this.playerInfo[i].currentTurn = this.playerInfo[i].nextTurn;
+          }
+        this.playerInfo.sort(compareTurn);
+
         let obj = this.func_createRandomTechArray(this.currentRound), lv_exist = false;
         for(let i = 0 ; i < obj.nanoTech.data.length; i++){
             this.randomNanoTechData.push(JSON.parse(JSON.stringify(obj.nanoTech.data[i])));
@@ -915,7 +1005,7 @@ export default {
         this.randomRareTechData.sort(compareNumbers);
 
         let dataObj = this.func_createDataObjToSave(this.dataObjToSave, this.currentRound, this.sessionname, 
-        this.randomNanoTechData, this.randomGridTechData, this.randomMilitaryTechData, this.randomRareTechData, this.techData, this.playercount,this.techCount);
+        this.randomNanoTechData, this.randomGridTechData, this.randomMilitaryTechData, this.randomRareTechData, this.techData, this.playercount,this.techCount, this.playerInfo);
 
         this.func_saveDataObj(dataObj);
         if(this.soundEnabled){
