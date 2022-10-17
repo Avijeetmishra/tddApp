@@ -1,7 +1,7 @@
 <template>
   <div >
     <div class="field">
-      <label class="label has-text-white" for="playerCount">Number of Players</label>
+      <label class="label has-text-white" for="playerCount">Number of Players <font-awesome-icon icon="fa-solid fa-user-secret" /></label>
       <div class="control">
         <div class="select">
           <select name="playerCount" id="playerCount" v-model="playercount">
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-      <label class="label has-text-white">Session Name <font-awesome-icon icon="fa-solid fa-user-secret" /></label>
+      <label class="label has-text-white">Session Name <font-awesome-icon icon="fa-solid fa-comment" /></label>
       
     <div class="columns is-centered">
       <div class= "column is-2">
@@ -30,6 +30,7 @@
             <article class="panel">
               <p class="panel-heading">
                 Previous Games
+                <font-awesome-icon icon="fa-solid fa-dice" />
               </p>
               <p class="panel-tabs">
                 <a></a>

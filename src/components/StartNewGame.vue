@@ -30,7 +30,7 @@
     
     <div>
         <tabs>
-            <tab name = "Tech Track" :selectedtab = true>
+            <tab name = "Tech Track" :selectedtab = true >
                 <div class="columns is-centered" >
                     <div class= "column is-1" v-for="playerObj in playerInfo" :key="playerObj.tempName + playerObj.currentTurn">
                         <button class="button is-success is-light"  >{{playerObj.playerName}} </button>
@@ -79,7 +79,10 @@
                     </div>
                     
                     <div class= "column is-1">
-                        <button class="button is-danger"  @click="click_passTurn(playerObj)">Pass</button>
+                        <button class="button is-danger"  @click="click_passTurn(playerObj)">
+                            Pass
+                            <!-- <font-awesome-icon icon="fa-solid fa-comment" /> -->
+                        </button>
                     </div>
                     <div class= "column is-1">
                         <button class="button is-info"  @click="click_unpassTurn(playerObj)">Unpass</button>
