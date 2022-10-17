@@ -48,28 +48,19 @@
                 <div class="columns">
                         <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="militaryTech.id + index3"   v-for="(militaryTech,index3) in randomMilitaryTechData" v-if="militaryTech.available > 0">
                             <img class="" height="50%" width="70%" :src="militaryTech.src"  @click="click_tech(militaryTech, index3)">
-                            <div v-if="militaryTech.available === 2" class="overlay_image" :src="images['X2']">2</div>
-                            <div v-else-if="militaryTech.available === 3" class="overlay_image" :src="images['X3']">3</div>
-                            <div v-else-if="militaryTech.available === 4" class="overlay_image" :src="images['X4']">4</div>
-                            <div v-else-if="militaryTech.available === 5" class="overlay_image" :src="images['X4']">5</div>
+                            <span class="bellnumbers">{{militaryTech.available}}</span>
                         </div>
                 </div>
                 <div class="columns">
                         <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="gridTech.id + index2"   v-for="(gridTech,index2) in randomGridTechData"  v-if="gridTech.available > 0">
                             <img height="50%" width="70%" :src="gridTech.src"  @click="click_tech(gridTech, index2)">
-                            <div v-if="gridTech.available === 2" class="overlay_image" :src="images['X2']">2</div>
-                            <div v-else-if="gridTech.available === 3" class="overlay_image" :src="images['X3']">3</div>
-                            <div v-else-if="gridTech.available === 4" class="overlay_image" :src="images['X4']">4</div>
-                            <div v-else-if="gridTech.available === 5" class="overlay_image" :src="images['X4']">5</div>
+                            <span class="bellnumbers">{{gridTech.available}}</span>
                         </div>
                 </div>
                 <div class="columns ">
                         <div style = "width:12.5%;" class= "column is-2 is-paddingless animate__animated animate__rollIn" :key="nanoTech.id + index1"  v-for="(nanoTech,index1) in randomNanoTechData" v-if="nanoTech.available>0">
                             <img height="50%" width="70%" :src="nanoTech.src" @click="click_tech(nanoTech, index1)">
-                            <div v-if="nanoTech.available === 2" class="overlay_image" >2</div>
-                            <div v-else-if="nanoTech.available === 3" class="overlay_image" >3</div>
-                            <div v-else-if="nanoTech.available === 4" class="overlay_image" >4</div>
-                            <div v-else-if="nanoTech.available === 5" class="overlay_image" >5</div>
+                            <span class="bellnumbers">{{nanoTech.available}}</span>
                         </div> 
                 </div>
                 <div class="columns is-multiline">
@@ -137,10 +128,6 @@ export default {
   },
   created(){
 
-      var testimages = this.images;
-        if(testimages["X2"]){
-            console.log("imagetestok");
-        }
       if(this.sessionobj!== null){
           this.func_continueGame(this.sessionobj);
           return;
@@ -261,11 +248,6 @@ export default {
                             require("@/assets/sound8.wav"),
                             require("@/assets/sound9.wav"),
                             require("@/assets/sound10.mp3")],
-      "images":{
-          "X2": require("@/assets/Tech/Advanced-labs.jpg"),
-          "X3": require("@/assets/Tech/Advanced-robotics.jpg"),
-          "X4": require("@/assets/Tech/Artifact-key.jpg"),
-      },
       "techCount":{
           "nanoTech":{
               "1":4,
@@ -1143,12 +1125,19 @@ export default {
 
 .overlay_image{
     position: relative;
-    bottom: 20%;
-    left: 70%;
-    width: 30px;
-    height: 30px;
-    background: white;
-    z-index:20;
+    right: 15%;
+    width: 40px;
+    height: 40px;
+}
+.bellnumbers{
+position: absolute;
+font-size:20px;
+background-color:#ff000091;
+width:30px;
+height:30px;
+color:#fff;
+    bottom: 8px;
+    right: 8px;
 }
 .noPaddingMargin{
     margin: 0 !important;

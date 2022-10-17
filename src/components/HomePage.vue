@@ -14,7 +14,8 @@
         </div>
       </div>
     </div>
-      <label class="label has-text-white">Session Name</label>
+      <label class="label has-text-white">Session Name <font-awesome-icon icon="fa-solid fa-user-secret" /></label>
+      
     <div class="columns is-centered">
       <div class= "column is-2">
           <input class="input" v-model="sessionname" placeholder="Edit me">

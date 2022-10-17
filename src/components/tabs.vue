@@ -1,10 +1,10 @@
 
 <template>
     <div>
-        <div class="tabs is-boxed is-centered">
+        <div class="tabs is-toggle is-boxed is-centered">
             <ul>
                 <li v-for="tab in tabs" :key="tab.name" :class="{'is-active':tab.isActive}">
-                    <a :display="tab.disp" :href="tab.href" @click="selectTab(tab)">
+                    <a :class="{'has-text-white':!tab.isActive}" :display="tab.disp" :href="tab.href" @click="selectTab(tab)">
                             {{tab.name}}
                     </a>
                 </li>
